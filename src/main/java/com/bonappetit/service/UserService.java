@@ -59,24 +59,28 @@ public class UserService {
             return false;
         }
 
-        userSession.login(byUsername.get().getId(), byUsername.get().getUsername());
+        userSession.login(byUsername.get().getId(), loginDTO.getUsername());
 
         return true;
     }
 
+    public void logout() {
+        userSession.logout();
+    }
+
     @Transactional
     public List<Recipe> findFavourites(Long id) {
-//        return userRepository.findById(id)
-//                .map(User::getFavouriteRecipes)
-//                .orElseGet(ArrayList::new);
+        return userRepository.findById(id)
+                .map(User::getFavouriteRecipes)
+                .orElseGet(ArrayList::new);
 
-        Optional<User> byId = userRepository.findById(id);
-
-        if (byId.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        return byId.get().getFavouriteRecipes();
+//        Optional<User> byId = userRepository.findById(id);
+//
+//        if (byId.isEmpty()) {
+//            return new ArrayList<>();
+//        }
+//
+//        return byId.get().getFavouriteRecipes();
 
     }
 }

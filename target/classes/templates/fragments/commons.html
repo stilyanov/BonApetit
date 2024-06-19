@@ -28,7 +28,7 @@
                 </li>
 
                 <li class="nav-item col-md-4"
-                    th:if="${@userSession.isLoggedIn()}"
+                    th:unless="${@userSession.isLoggedIn()}"
                 >
                     <a class="nav-link text-primary active h5 text-stroke" th:href="@{/register}">Register</a>
                 </li>

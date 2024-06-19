@@ -56,7 +56,6 @@ public class RecipeController {
 
         if (!success) {
             redirectAttributes.addFlashAttribute("recipeData", recipeDTO);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.recipeData", bindingResult);
 
             return "redirect:/add-recipe";
         }

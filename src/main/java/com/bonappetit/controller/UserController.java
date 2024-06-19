@@ -19,12 +19,10 @@ public class UserController {
 
     private final UserService userService;
     private final UserSession userSession;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, UserSession userSession, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, UserSession userSession) {
         this.userService = userService;
         this.userSession = userSession;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @ModelAttribute("registerData")
@@ -97,6 +95,7 @@ public class UserController {
         boolean success = userService.login(loginDTO);
 
         if (!success) {
+            redirectAttributes.addFlashAttribute("loginError", true);
             return "redirect:/login";
         }
 
@@ -109,7 +108,7 @@ public class UserController {
             return "redirect:/";
         }
 
-        userSession.logout();
+        userService.logout();
 
         return "redirect:/";
     }

@@ -10,6 +10,7 @@ import com.bonappetit.repo.CategoryRepository;
 import com.bonappetit.repo.RecipeRepository;
 import com.bonappetit.repo.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +74,7 @@ public class RecipeService {
         return result;
     }
 
+    @Transactional
     public void addToFavourites(Long id, Long recipeId) {
         Optional<User> userOptional = userRepository.findById(id);
 
