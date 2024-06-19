@@ -95,7 +95,9 @@ public class UserController {
         boolean success = userService.login(loginDTO);
 
         if (!success) {
-            redirectAttributes.addFlashAttribute("loginError", true);
+            redirectAttributes.addFlashAttribute("loginData", loginDTO);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.loginData", bindingResult);
+            redirectAttributes.addFlashAttribute("loginError", "Invalid username or password!");
             return "redirect:/login";
         }
 
