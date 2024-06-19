@@ -3,6 +3,7 @@ package com.bonappetit.service;
 import com.bonappetit.config.UserSession;
 import com.bonappetit.model.dto.AddRecipeDTO;
 import com.bonappetit.model.entity.Category;
+import com.bonappetit.model.entity.CategoryName;
 import com.bonappetit.model.entity.Recipe;
 import com.bonappetit.model.entity.User;
 import com.bonappetit.repo.CategoryRepository;
@@ -10,6 +11,9 @@ import com.bonappetit.repo.RecipeRepository;
 import com.bonappetit.repo.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -55,4 +59,35 @@ public class RecipeService {
         return true;
     }
 
+    public Map<CategoryName, List<Recipe>> findAllByCategory() {
+        Map<CategoryName, List<Recipe>> result = new HashMap<>();
+
+        List<Category> allCategories = categoryRepository.findAll();
+
+        for (Category category : allCategories) {
+            List<Recipe> recipes = recipeRepository.findAllByCategory(category);
+
+            result.put(category.getName(), recipes);
+        }
+
+        return result;
+    }
+
+    public void addToFavourites(Long id, Long recipeId) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (userOptional.isEmpty()) {
+            return;
+        }
+
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+
+        if (recipeOptional.isEmpty()) {
+            return;
+        }
+
+        userOptional.get().addFavourite(recipeOptional.get());
+
+        userRepository.save(userOptional.get());
+    }
 }
