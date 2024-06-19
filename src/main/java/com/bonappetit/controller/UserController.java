@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -40,11 +39,19 @@ public class UserController {
 
     @GetMapping("/register")
     public String register() {
+        if (userSession.isLoggedIn()) {
+            return "redirect:/home";
+        }
+
         return "register";
     }
 
     @PostMapping("/register")
     public String doRegister(@Valid UserRegisterDTO registerDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (userSession.isLoggedIn()) {
+            return "redirect:/home";
+        }
 
         if (bindingResult.hasErrors() || !registerDTO.getPassword().equals(registerDTO.getConfirmPassword())) {
             redirectAttributes.addFlashAttribute("registerData", registerDTO);
@@ -65,11 +72,20 @@ public class UserController {
 
     @GetMapping("/login")
     public String login() {
+
+        if (userSession.isLoggedIn()) {
+            return "redirect:/home";
+        }
+
         return "login";
     }
 
     @PostMapping("/login")
     public String doLogin(@Valid UserLoginDTO loginDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (userSession.isLoggedIn()) {
+            return "redirect:/home";
+        }
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("loginData", loginDTO);
@@ -85,6 +101,17 @@ public class UserController {
         }
 
         return "redirect:/home";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        if (!userSession.isLoggedIn()) {
+            return "redirect:/";
+        }
+
+        userSession.logout();
+
+        return "redirect:/";
     }
 
 }
