@@ -24,27 +24,27 @@ public class UserRegisterDTO {
     public UserRegisterDTO() {
     }
 
-    public @NotNull @Size(min = 3, max = 20, message = "Username length must be between 3 and 20 characters (inclusive of 3 and 20)!") String getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(@NotNull @Size(min = 3, max = 20, message = "Username length must be between 3 and 20 characters (inclusive of 3 and 20)!") String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public @NotNull @Email(message = "Must contain '@'!") String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(@NotNull @Email(message = "Must contain '@'!") String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public @NotNull @Size(min = 2, max = 20, message = "Password length must be between 3 and 20 characters (inclusive of 3 and 20)!") String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(@NotNull @Size(min = 2, max = 20, message = "Password length must be between 3 and 20 characters (inclusive of 3 and 20)!") String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
